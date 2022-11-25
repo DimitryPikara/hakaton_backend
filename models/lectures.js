@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     Lectures.belongsTo(Users, {
       foreignKey: 'teacherId',
       targetKey: 'id',
-      as: 'teacherId',
+      as: 'teacher',
     })
   }
 

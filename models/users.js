@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     Users.belongsTo(Groups, {
       foreignKey: 'groupId',
       targetKey: 'id',
-      as: 'groupId',
+      as: 'group',
     });
     Users.hasMany(Lectures, {
       as: 'lectures',
