@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     lectureId: DataTypes.UUID,
   });
 
-  Users.associate = ({ Lectures, Groups }) => {
+  Users.associate = ({ Lectures, Groups, LecturesUsers }) => {
     Users.belongsTo(Groups, {
       foreignKey: 'groupId',
       targetKey: 'id',
@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     });
     Users.hasMany(Lectures, {
       as: 'lectures',
+    })
+    Users.hasOne(LecturesUsers, {
+      foreignKey: 'userId',
+      as: 'lectureUsers',
     })
   }
 
