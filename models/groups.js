@@ -6,7 +6,21 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     title: DataTypes.STRING,
+    usersId: DataTypes.UUID,
   });
+  Groups.associate = ({
+    Users,
+    Lectures,
+  }) => {
+    Groups.hasMany(Users, {
+      as: 'users',
+    });
+    Groups.belongsToMany(Lectures, {
+      through: 'groupsLectures',
+      foreignKey: 'groupId',
+      as: 'lectures',
+    })
+  }
 
   return Groups;
 };

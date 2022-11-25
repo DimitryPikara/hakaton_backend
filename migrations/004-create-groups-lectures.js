@@ -1,16 +1,9 @@
 module.exports = {
-  up: (QueryInterface, Sequelize) => QueryInterface.createTable('Users', {
+  up: (QueryInterface, Sequelize) => QueryInterface.createTable('GroupsLectures', {
     id: {
       type: Sequelize.UUID,
       allowNull: false,
       primaryKey: true,
-    },
-    firstName: Sequelize.STRING,
-    lastName: Sequelize.STRING,
-    patronymic: Sequelize.STRING,
-    role: {
-      type: Sequelize.STRING,
-      allowNull: false,
     },
     groupId: Sequelize.UUID,
     lectureId: Sequelize.UUID,
@@ -23,5 +16,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: (queryInterface) => queryInterface.dropTable('Users'),
+  down: (queryInterface) => queryInterface.dropTable('GroupsLectures'),
 };

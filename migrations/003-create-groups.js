@@ -6,6 +6,7 @@ module.exports = {
       primaryKey: true,
     },
     title: Sequelize.STRING,
+    usersId: Sequelize.UUID,
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
@@ -15,5 +16,5 @@ module.exports = {
       type: Sequelize.DATE
     },
   }),
-  down: (queryInterface) => QueryInterface.dropTable('Groups'),
+  down: (queryInterface) => queryInterface.dropTable('Groups'),
 };
