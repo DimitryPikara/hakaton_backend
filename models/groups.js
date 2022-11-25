@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     Lectures,
   }) => {
     Groups.hasMany(Users, {
+      foreignKey: 'groupId',
+      sourceKey: 'id',
       as: 'users',
     });
     Groups.belongsToMany(Lectures, {

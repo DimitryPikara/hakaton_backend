@@ -5,8 +5,14 @@ module.exports = {
       allowNull: false,
       primaryKey: true,
     },
-    lectureId: Sequelize.UUID,
-    userId: Sequelize.UUID,
+    lectureId: {
+      type: Sequelize.UUID,
+      allowNull: true,
+    },
+    userId: {
+      type: Sequelize.UUID,
+      allowNull: true,
+    },
     isCheck: Sequelize.BOOLEAN,
     createdAt: {
       allowNull: false,

@@ -10,7 +10,10 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      teacherId: Sequelize.UUID,
+      teacherId: {
+        type: Sequelize.UUID,
+        allowNull: true,
+      },
       start: Sequelize.DATE,
       end: Sequelize.DATE,
       isOnline: Sequelize.BOOLEAN,
