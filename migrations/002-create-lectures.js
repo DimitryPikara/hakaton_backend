@@ -10,6 +10,11 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
+      teacherId: Sequelize.UUID,
+      groupId: Sequelize.UUID,
+      start: Sequelize.DATE,
+      end: Sequelize.DATE,
+      isOnline: Sequelize.BOOLEAN,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

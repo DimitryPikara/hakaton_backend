@@ -15,8 +15,20 @@ module.exports = (sequelize, DataTypes) => {
       },
       defaultValue: 'student',
     },
-    group: DataTypes.STRING,
+    groupId: DataTypes.UUID,
+    lectureId: DataTypes.UUID,
   });
+
+  Users.associate = ({ Lectures, Groups }) => {
+    Users.belongsTo(Groups, {
+      foreignKey: 'groupId',
+      targetKey: 'id',
+      as: 'groupId',
+    });
+    Users.hasMany(Lectures, {
+      as: 'lectures',
+    })
+  }
 
   return Users;
 };

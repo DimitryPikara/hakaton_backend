@@ -6,10 +6,27 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     title: DataTypes.STRING,
-    teacher: DataTypes.UUID,
+    teacherId: DataTypes.UUID,
+    groupId: DataTypes.UUID,
     start: DataTypes.DATE,
     end: DataTypes.DATE,
+    isOnline: DataTypes.BOOLEAN,
   });
+  Lectures.associate = ({
+    Users,
+    Groups,
+  }) => {
+    Lectures.belongsToMany(Groups, {
+      through: 'groupsLectures',
+      foreignKey: 'lectureId',
+      as: 'groups',
+    })
+    Lectures.belongsTo(Users, {
+      foreignKey: 'teacherId',
+      targetKey: 'id',
+      as: 'teacherId',
+    })
+  }
 
   return Lectures;
 };

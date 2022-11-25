@@ -12,7 +12,8 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    group: Sequelize.STRING,
+    groupId: Sequelize.UUID,
+    lectureId: Sequelize.UUID,
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
