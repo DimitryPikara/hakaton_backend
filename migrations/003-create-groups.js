@@ -6,6 +6,14 @@ module.exports = {
       primaryKey: true,
     },
     title: Sequelize.STRING,
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
   }),
   down: (queryInterface) => QueryInterface.dropTable('Groups'),
 };
