@@ -15,7 +15,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const user = await getUserById(id);
-      return resGenerator(res, 200, user);
+      resGenerator(res, 200, user);
     } catch (error) {
       resGenerator(res, 400, error);
     }
