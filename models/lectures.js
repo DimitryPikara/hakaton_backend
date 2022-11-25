@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: DataTypes.STRING,
     teacherId: DataTypes.UUID,
-    groupId: DataTypes.UUID,
     start: DataTypes.DATE,
     end: DataTypes.DATE,
     isOnline: DataTypes.BOOLEAN,
