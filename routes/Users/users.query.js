@@ -4,4 +4,7 @@ module.exports = {
   getUsersQuery() {
     return Users.findAll();
   },
+  getUserById(id) {
+    return Users.findOne({ where: { id } });
+  },
 };

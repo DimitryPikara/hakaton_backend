@@ -1,6 +1,6 @@
 const resGenerator = require('../../utils/resGenerator');
 
-const { getUsersQuery } = require('./users.query');
+const { getUsersQuery, getUserById } = require('./users.query');
 
 module.exports = {
   async getUsers(req, res) {
@@ -11,4 +11,13 @@ module.exports = {
       resGenerator(res, 400, error);
     }
   },
+  async getOneUser(req, res) {
+    try {
+      const { id } = req.params;
+      const user = await getUserById(id);
+      resGenerator(res, 200, user);
+    } catch (error) {
+      resGenerator(res, 400, error);
+    }
+  }
 };
