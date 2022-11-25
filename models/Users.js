@@ -17,4 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     group: DataTypes.STRING,
   });
+
+  return Users;
 };
