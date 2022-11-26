@@ -4,7 +4,6 @@ const {
 } = require('../../models');
 
 module.exports = {
-
   createGroup(groupId, userId) {
     return Users.update(
       { groupId },

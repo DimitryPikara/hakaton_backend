@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     title: DataTypes.STRING,
-    teacherId: DataTypes.UUID,
+    teacher: DataTypes.UUID,
     start: DataTypes.DATE,
     registrationTime: DataTypes.NUMBER,
     isOnline: DataTypes.BOOLEAN,
@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       as: 'groups',
     });
     Lectures.belongsTo(Users, {
-      foreignKey: 'teacherId',
+      foreignKey: 'teacher',
       targetKey: 'id',
-      as: 'teacher',
+      as: 'teacherLecture',
     });
     Lectures.hasOne(LecturesUsers, {
       foreignKey: 'lectureId',
