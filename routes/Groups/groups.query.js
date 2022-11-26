@@ -12,7 +12,7 @@ module.exports = {
           {
             model: Users,
             as: 'users',
-          }
+          },
         ],
       });
 
@@ -22,6 +22,8 @@ module.exports = {
         ...existGroup.users,
         data,
       };
+
+      await Users.update({ groupId: existGroup.id }, { where: { id: data.id } });
 
       return Groups.update(groupWithNewUser, {
         where: { id: groupId },
