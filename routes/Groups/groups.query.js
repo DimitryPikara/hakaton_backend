@@ -62,5 +62,8 @@ module.exports = {
   },
   deleteGroup(id) {
     return Groups.destroy({ where: { id } });
+  },
+  async getGroupsQuery() {
+    return Groups.findAll({ attributes: ['id', 'title']});
   }
 };

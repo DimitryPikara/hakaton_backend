@@ -7,11 +7,12 @@ const {
   deleteGroup,
   deleteUser,
   addUser,
+  getGroups,
 } = require('./groups.controller');
 
 const router = express.Router();
 
-router.get('/', verifyToken);
+router.get('/', getGroups);
 
 router.post('/add-user/:id', addUser);
 

@@ -5,6 +5,7 @@ const {
   deleteUser,
   createGroup,
   deleteGroup,
+  getGroupsQuery,
 } = require('./groups.query');
 
 module.exports = {
@@ -44,4 +45,12 @@ module.exports = {
       resGenerator(res, 400, error);
     }
   },
+  async getGroups(req, res) {
+    try {
+      const groups = await getGroupsQuery();
+      resGenerator(res, 200, groups);
+    } catch (error) {
+      resGenerator(res, 400, error);
+    }
+  }
 };
