@@ -10,7 +10,7 @@ module.exports = {
       allowNull: true,
     },
     lectureId: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       allowNull: true,
     },
     createdAt: {

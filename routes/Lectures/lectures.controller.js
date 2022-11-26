@@ -1,4 +1,8 @@
+const chrono = require('chrono');
+
 const resGenerator = require('../../utils/resGenerator');
+
+const takeTime = require('./lectures.helpers');
 
 const {
   getLectureByTeacherId,
@@ -18,7 +22,31 @@ module.exports = {
   },
   async createLecture(req, res) {
     try {
-      const lecture = await createLecture(req.body);
+      const { groupId } = req.quuery;
+      const { data } = req.body;
+      data.table.table.slice(2).map((item) => {
+        item.map((lesson, lessonIndex) => {
+          if (lessonIndex !== 0 && lesson) {
+            lessons.push({
+            title: lesson,
+            isOnline: lesson.includes('LMS' || 'Teams'),
+            date: chrono.ru.parseDate(
+            `${item[0].split(',')[1].slice(0, 3)
+            + item[0].split(',')[1].slice(4)
+            },${
+            takeTime(lessonIndex)}`,
+            ),
+            // DONT LOOK, 18+ CONTENT!!!!!!!!!!!!!!!!!!!!!!!
+            teacher: lesson.split(' ').reduce((acc, element, index) => {
+              if (element.includes('.') && element.length === 2 && !acc) {
+                return `${lesson.split(' ')[index - 1]} ${element}${lesson.split(' ')[index + 1]}`;
+              }
+              return acc;
+              }, ''),
+            });
+        }
+      })});
+      const lecture = await createLecture(req.body, groupId);
       resGenerator(res, 201, lecture);
     } catch (error) {
       resGenerator(res, 400, error);

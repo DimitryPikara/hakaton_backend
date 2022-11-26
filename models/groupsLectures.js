@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     groupId: DataTypes.UUID,
-    lectureId: DataTypes.UUID,
+    lectureId: DataTypes.INTEGER,
   });
 
   return GroupsLectures;
