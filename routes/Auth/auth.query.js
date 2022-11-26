@@ -27,7 +27,7 @@ module.exports = {
         };
       }
 
-      if (!existUser.isFirstLogin && jobTitle === 'студент') {
+      if (!existUser?.isFirstLogin && jobTitle === 'студент') {
         return {
           user: existUser,
           token: existToken.accessToken,
