@@ -18,9 +18,9 @@ module.exports = {
     try {
 
       const existUser = await Users.findOne({ where: { id } });
-      const existToken = await ApiTokens.findOne({ where: { userId: id } });
 
       if (existUser) {
+        const existToken = await ApiTokens.findOne({ where: { userId: id } });
         return {
           user: existUser,
           token: existToken.accessToken,
@@ -28,6 +28,7 @@ module.exports = {
       }
 
       if (!existUser?.isFirstLogin && jobTitle === 'студент') {
+        const existToken = await ApiTokens.findOne({ where: { userId: id } });
         return {
           user: existUser,
           token: existToken.accessToken,
