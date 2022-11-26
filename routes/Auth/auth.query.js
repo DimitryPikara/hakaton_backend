@@ -27,7 +27,7 @@ module.exports = {
         };
       }
 
-      if (!existUser?.isFirstLogin && jobTitle === 'студент') {
+      if (existUser && !existUser?.isFirstLogin && jobTitle === 'студент') {
         const existToken = await ApiTokens.findOne({ where: { userId: id } });
         return {
           user: existUser,
