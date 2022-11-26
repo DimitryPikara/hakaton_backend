@@ -12,6 +12,7 @@ module.exports = {
       const userWithToken = await createUser(req.body, token);
       resGenerator(res, 201, userWithToken); 
     } catch (error) {
+      console.log(error);
       resGenerator(res, 401, error);
     }
   },
