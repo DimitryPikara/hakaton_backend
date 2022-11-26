@@ -2,7 +2,7 @@ const chrono = require('chrono');
 
 const resGenerator = require('../../utils/resGenerator');
 
-const { takeTime } = require('./lectures.helpers');
+const takeTime = require('./lectures.helpers');
 
 const {
   getLectureByTeacherId,

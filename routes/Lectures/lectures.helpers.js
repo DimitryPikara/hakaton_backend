@@ -1,5 +1,4 @@
-module.exports = {
-  takeTime(index) {
+const takeTime = (index) => {
     switch (index) {
     case 1: {
     return '8:00';
@@ -25,6 +24,7 @@ module.exports = {
     default: {
     return undefined;
     }
-    }
-    }
-}
+  }
+};
+
+module.exports = takeTime;
