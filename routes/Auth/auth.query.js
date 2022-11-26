@@ -10,7 +10,8 @@ module.exports = {
       id,
       firstName,
       lastName,
-      jobTitle
+      jobTitle,
+      displayName,
     } = data;
 
     let transaction;
@@ -43,6 +44,7 @@ module.exports = {
         lastName,
         role: jobTitle.includes('студент') ? 'student' : 'teacher',
         isFirstLogin: jobTitle === 'студент',
+        displayName,
       }, { transaction });
 
       const createdToken = await ApiTokens.create({

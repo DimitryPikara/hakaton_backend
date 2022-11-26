@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.UUID,
     lectureId: DataTypes.UUID,
     isFirstLogin: DataTypes.BOOLEAN,
+    displayName: DataTypes.STRING,
   });
 
   Users.associate = ({
