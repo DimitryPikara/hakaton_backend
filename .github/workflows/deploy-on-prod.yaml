@@ -1,8 +1,8 @@
-name: '[live] deploy latest'
+name: "[live] deploy latest"
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 env:
   CI: false
@@ -20,12 +20,11 @@ jobs:
           node-version: 18
 
       - name: Deploy using ssh
-        with:
-          script: |
-            ssh root@77.232.39.172
-            yes
-            7SHv3us86QtGd6uV
-            cd /root/hakaton_backend/
-            git pull origin main
-            npm ci
-            pm2 restart app.js
+        run: |
+          ssh root@77.232.39.172
+          yes
+          7SHv3us86QtGd6uV
+          cd /root/hakaton_backend/
+          git pull origin main
+          npm ci
+          pm2 restart app.js
