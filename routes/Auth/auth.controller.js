@@ -7,9 +7,8 @@ const { createUser, logout } = require('./auth.query');
 module.exports = {
   async createUser(req, res) {
     try {
-      const token = req.headers.authorization;
       if (!token) return resGenerator(res, 401, { message: 'Invalid token' });
-      const userWithToken = await createUser(req.body, token);
+      const userWithToken = await createUser(req.body);
       resGenerator(res, 201, userWithToken); 
     } catch (error) {
       resGenerator(res, 401, error);
