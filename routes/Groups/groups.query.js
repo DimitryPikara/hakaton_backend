@@ -12,16 +12,18 @@ module.exports = {
           {
             model: Users,
             as: 'users',
-          }
+          },
         ],
       });
 
       if (!existGroup) throw new Error('Group not found!');
 
       const groupWithNewUser = {
-        ...existGroup,
+        ...existGroup.users,
         data,
       };
+
+      await Users.update({ groupId: existGroup.id }, { where: { id: data.id } });
 
       return Groups.update(groupWithNewUser, {
         where: { id: groupId },
@@ -57,8 +59,15 @@ module.exports = {
       throw error;
     }
   },
-  async createGroup(data) {
-    return Groups.create(data);
+  createGroup(groupId, userId) {
+    return Users.update(
+      { groupId },
+      { 
+        where: { id: userId },
+        returning: true,
+        plain: true,
+      },
+      );
   },
   deleteGroup(id) {
     return Groups.destroy({ where: { id } });
