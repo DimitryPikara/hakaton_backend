@@ -19,7 +19,7 @@ module.exports = {
       if (!existGroup) throw new Error('Group not found!');
 
       const groupWithNewUser = {
-        ...existGroup,
+        ...existGroup.users,
         data,
       };
 
@@ -57,8 +57,15 @@ module.exports = {
       throw error;
     }
   },
-  async createGroup(data) {
-    return Groups.create(data);
+  createGroup(groupId, userId) {
+    return Users.update(
+      { groupId },
+      { 
+        where: { id: userId },
+        returning: true,
+        plain: true,
+      },
+      );
   },
   deleteGroup(id) {
     return Groups.destroy({ where: { id } });

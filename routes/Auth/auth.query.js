@@ -41,5 +41,8 @@ module.exports = {
       if (transaction) await transaction.rollback()
       throw error;
     }
+  },
+  logout(id) {
+    return ApiTokens.destroy({ where: { userId: id } })
   }
 }

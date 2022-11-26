@@ -29,7 +29,8 @@ module.exports = {
   },
   async createGroup(req, res) {
     try {
-      const group = await createGroup(req.body);
+      const { groupId, userId } = req.query;
+      const group = await createGroup(groupId, userId);
       resGenerator(res, 201, group);
     } catch (error) {
       resGenerator(res, 400, error);
