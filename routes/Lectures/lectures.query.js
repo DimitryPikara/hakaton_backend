@@ -17,7 +17,7 @@ module.exports = {
       const newLecture = await Promise.all(data.map((item) => Lectures.create({
         start: item.date,
         isOnline: item.isOnline,
-        teacher: item.teacher ?? '',
+        teacher: item.teacher,
         title: item.title,
         registrationTime: 30,
       }, { transaction })));
