@@ -2,14 +2,14 @@ const jwt = require('jsonwebtoken');
 
 const resGenerator = require('../../utils/resGenerator');
 
-const { createUser, logout } = require('./auth.query');
+const { createOrGetUser, logout } = require('./auth.query');
 
 module.exports = {
   async createUser(req, res) {
     try {
       const token = req.headers.authorization;
       if (!token) return resGenerator(res, 401, { message: 'Invalid token' });
-      const userWithToken = await createUser(req.body, token);
+      const userWithToken = await createOrGetUser(req.body, token);
       resGenerator(res, 201, userWithToken); 
     } catch (error) {
       console.log(error);

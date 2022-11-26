@@ -5,7 +5,7 @@ const {
 } = require('../../models');
 
 module.exports = {
-  async createUser(data, token) {
+  async createOrGetUser(data, token) {
     const {
       id,
       firstName,
@@ -17,6 +17,17 @@ module.exports = {
 
     try {
       transaction = await sequelize.transaction();
+
+      const existUser = await Users.findOne({ where: { id } });
+
+      if (existUser) {
+        const existToken = await ApiTokens.findOne({ where: { userId: id } });
+
+        return {
+          user: existUser,
+          token: existToken.accessToken,
+        };
+      }
 
       const newUser = await Users.create({
         id,
