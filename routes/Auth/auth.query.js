@@ -5,13 +5,12 @@ const {
 } = require('../../models');
 
 module.exports = {
-  async createUser(data) {
+  async createUser(data, token) {
     const {
       id,
       firstName,
       lastName,
-      jobTitle,
-      token,
+      jobTitle
     } = data;
 
     let transaction;
