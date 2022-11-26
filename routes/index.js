@@ -8,7 +8,7 @@ const groupsRouter = require('./Groups/groups');
 const authRouter = require('./Auth/auth');
 
 router.use('/users', usersRouter);
-router.use('/lecture', lectureRouter);
+router.use('/lectures', lectureRouter);
 router.use('/groups', groupsRouter);
 router.use('/auth', authRouter);
 

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const wifiName = require('wifi-name');
 
 const resGenerator = require('../../utils/resGenerator');
 

@@ -18,10 +18,16 @@ module.exports = {
     try {
 
       const existUser = await Users.findOne({ where: { id } });
+      const existToken = await ApiTokens.findOne({ where: { userId: id } });
 
       if (existUser) {
-        const existToken = await ApiTokens.findOne({ where: { userId: id } });
+        return {
+          user: existUser,
+          token: existToken.accessToken,
+        };
+      }
 
+      if (!existUser.isFirstLogin && jobTitle === 'студент') {
         return {
           user: existUser,
           token: existToken.accessToken,
@@ -35,6 +41,7 @@ module.exports = {
         firstName,
         lastName,
         role: jobTitle.includes('студент') ? 'student' : 'teacher',
+        isFirstLogin: jobTitle === 'студент',
       }, { transaction });
 
       const createdToken = await ApiTokens.create({
