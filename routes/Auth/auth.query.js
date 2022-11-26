@@ -16,7 +16,6 @@ module.exports = {
     let transaction;
 
     try {
-      transaction = await sequelize.transaction();
 
       const existUser = await Users.findOne({ where: { id } });
 
@@ -28,6 +27,8 @@ module.exports = {
           token: existToken.accessToken,
         };
       }
+
+      transaction = await sequelize.transaction();
 
       const newUser = await Users.create({
         id,

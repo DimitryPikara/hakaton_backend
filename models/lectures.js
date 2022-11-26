@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     teacherId: DataTypes.UUID,
     start: DataTypes.DATE,
-    end: DataTypes.DATE,
+    registrationTime: DataTypes.NUMBER,
     isOnline: DataTypes.BOOLEAN,
   });
   Lectures.associate = ({
