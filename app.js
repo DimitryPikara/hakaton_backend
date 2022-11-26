@@ -4,8 +4,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const schedule = require('node-schedule');
 
 const indexRouter = require('./routes/index');
+const updateGroups = require('./utils/updateGroups').updateAll;
 
 const app = express();
 
@@ -20,6 +22,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+
+schedule.scheduleJob('0 * 1 08 *', updateGroups);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
