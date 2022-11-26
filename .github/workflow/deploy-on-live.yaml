@@ -1,0 +1,33 @@
+name: '[live] deploy latest'
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  CI: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 3000
+          script: |
+            cd /root/hakaton_backend
+            git pull origin main
+            npm ci
+            pm2 restart app.js
