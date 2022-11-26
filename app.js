@@ -10,6 +10,10 @@ const indexRouter = require('./routes/index');
 
 const app = express();
 
+const corsSettings = {
+  exposedHeaders: ['Access-Control-Allow-Headers', 'X-Total -Count'],
+};
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
