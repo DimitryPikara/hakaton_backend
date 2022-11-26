@@ -13,7 +13,7 @@ module.exports = {
       resGenerator(res, 201, userWithToken); 
     } catch (error) {
       console.log(error);
-      resGenerator(res, 401, error);
+      resGenerator(res, 400, error);
     }
   },
   async logout(req, res) {
