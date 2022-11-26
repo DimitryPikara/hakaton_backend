@@ -1,5 +1,7 @@
 const express = require('express');
 
+const verifyToken = require('../../middlewares/verifyToken');
+
 const {
   createGroup,
   deleteGroup,
@@ -8,6 +10,8 @@ const {
 } = require('./groups.controller');
 
 const router = express.Router();
+
+router.get('/', verifyToken);
 
 router.post('/add-user/:id', addUser);
 
