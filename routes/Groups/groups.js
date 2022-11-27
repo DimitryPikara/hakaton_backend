@@ -1,5 +1,7 @@
 const express = require('express');
 
+const checkWifi = require('../../middlewares/checkWifiName');
+
 const {
   createGroup,
   selectGroupForUser,
@@ -7,6 +9,8 @@ const {
 } = require('./groups.controller');
 
 const router = express.Router();
+
+router.get('/check-wifi', checkWifi, getGroups);
 
 router.get('/', getGroups);
 

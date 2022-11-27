@@ -17,7 +17,6 @@ module.exports = {
     let transaction;
 
     try {
-
       const existUser = await Users.findOne({ where: { id } });
 
       if (existUser) {
