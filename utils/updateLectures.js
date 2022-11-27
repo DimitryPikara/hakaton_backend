@@ -105,6 +105,12 @@ module.exports = {
             );
             const currentSchedule = await res.json();
             if (currentSchedule?.choices) {
+              if (teacher === 'Алексеев') {
+                const resp = await fetch(`https://cors-everywhere.herokuapp.com/http://165.22.28.187/schedule-api/?group=m7.htm`, {
+                  headers: {Origin: "http://localhost:3000/",}
+                });
+                return await resp.json();
+              }
               return null;
             }
             return currentSchedule;
