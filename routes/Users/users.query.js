@@ -1,4 +1,4 @@
-const { Users, Groups } = require("../../models");
+const { Users, Groups, LecturesUsers } = require("../../models");
 
 module.exports = {
   getUsersQuery() {
@@ -14,5 +14,18 @@ module.exports = {
         },
       ],
     });
+  },
+  getUsersLecture(lectureId) {
+    return LecturesUsers.findAll(
+      {
+        where: { lectureId },
+        include: [
+          {
+            model: Users,
+            as: 'user'
+          }
+        ],
+      }
+    );
   },
 };

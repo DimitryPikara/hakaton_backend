@@ -122,5 +122,5 @@ module.exports = {
     } catch (error) {
       resGenerator(res, 400, error);
     }
-  }
+  },
 };
