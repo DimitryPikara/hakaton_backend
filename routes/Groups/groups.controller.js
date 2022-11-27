@@ -9,7 +9,7 @@ const {
 module.exports = {
   async selectGroupForUser(req, res) {
     try {
-      const { groupId } = req.params;
+      const { id } = req.params;
       const { userId } = req.query;
       const group = await selectGroupForUser(groupId, userId);
       resGenerator(res, 200, group);
