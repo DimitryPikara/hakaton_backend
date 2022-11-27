@@ -10,18 +10,18 @@ module.exports = (sequelize, DataTypes) => {
     isCheck: DataTypes.BOOLEAN,
   });
   
-  LecturesUsers.associate = ({ Users, Lectures }) => {
-    LecturesUsers.belongsTo(Users, {
-      foreignKey: 'userId',
-      targetKey: 'id',
-      as: 'user',
-    });
-    LecturesUsers.belongsTo(Lectures, {
-      foreignKey: 'leatureId',
-      targetKey: 'id',
-      as: 'lecture',
-    });
-  }
+  // LecturesUsers.associate = ({ Users, Lectures }) => {
+  //   LecturesUsers.belongsTo(Users, {
+  //     foreignKey: 'userId',
+  //     targetKey: 'id',
+  //     as: 'user',
+  //   });
+  //   LecturesUsers.belongsTo(Lectures, {
+  //     foreignKey: 'leatureId',
+  //     targetKey: 'id',
+  //     as: 'lecture',
+  //   });
+  // }
 
   return LecturesUsers;
 };

@@ -5,7 +5,7 @@ const randomstring = require('randomstring');
 
 module.exports = {
   getLectureByTeacherName(name) {
-    return Lectures.findAll({ where: { teacher: { [Op.like]: `${name}%` } } });
+    return Lectures.findAll({ where: { teacher: { [Op.like]: `${name}%` } }, include: {model: Groups, as: 'groups'} });
   },
   async getLectureByGroupId(id) {
     const group = await Groups.findOne({
