@@ -24,12 +24,12 @@ module.exports = {
         data.map((item) =>
           Lectures.create(
             {
-              start: item.date,
+              start: new Date(),
               isOnline: item.isOnline,
               teacher: item.teacher,
               title: item.title,
-              registrationTime: 30,
-              code: randomstring.generate(7),
+              registrationTime: item.registrationTime,
+              code: item.code,
             },
             { transaction }
           )
