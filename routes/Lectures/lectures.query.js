@@ -54,8 +54,6 @@ module.exports = {
         )
       );
 
-      // console.log(newAss);
-
       await transaction.commit();
       
       return Lectures.findAll({

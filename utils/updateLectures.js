@@ -42,7 +42,6 @@ const lessonsParser = (data) => {
       }
     });
   });
-  console.log(lessons);
   return lessons;
 };
 
