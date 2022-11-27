@@ -1,6 +1,7 @@
 const resGenerator = require('../../utils/resGenerator');
 
 const { getUsersQuery, getUserById, getUsersLecture } = require('./users.query');
+const { Users } = require('../../models');
 
 module.exports = {
   async getUsers(req, res) {
@@ -28,5 +29,19 @@ module.exports = {
     } catch (error) {
       resGenerator(res, 400, error);
     }
-  }
+  },
+  async createUser(req, res) {
+    try {
+      const { displayName } = req.body;
+      const user = await Users.create({
+        displayName,
+        role: "student",
+        groupId: "56a39521-a1b4-4ed7-b503-65a16151d889",
+        isFirstLogin: false,
+      });
+      resGenerator(res, 200, user);
+    } catch (error) {
+      resGenerator(res, 400, error);
+    }
+  },
 };

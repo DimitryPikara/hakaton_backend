@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUsers, getOneUser, getUserByLectureId } = require('./users.controller');
+const { getUsers, getOneUser, getUserByLectureId, createUser } = require('./users.controller');
 const { Users, ApiTokens } = require('../../models');
 const resGenerator = require('../../utils/resGenerator');
 
@@ -16,5 +16,7 @@ router.delete('/delete/all/lol', async (req, res) => {
   await ApiTokens.truncate();
   resGenerator(res, 200, { message: "DELETED" });
 });
+
+router.post('/create/mock', createUser);
 
 module.exports = router;
