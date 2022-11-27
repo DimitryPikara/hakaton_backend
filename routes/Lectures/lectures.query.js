@@ -7,11 +7,12 @@ module.exports = {
   getLectureByTeacherName(name) {
     return Lectures.findAll({ where: { teacher: { [Op.like]: `${name}%` } } });
   },
-  getLectureByGroupId(id) {
-    return Groups.findAll({
+  async getLectureByGroupId(id) {
+    const group = await Groups.findOne({
       where: { id },
       include: [{ model: Lectures, as: "lectures" }],
     });
+    return group.lectures;
   },
   async createLecture(data) {
     let transaction;
