@@ -11,7 +11,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const { userId } = req.query;
-      const group = await selectGroupForUser(groupId, userId);
+      const group = await selectGroupForUser(id, userId);
       resGenerator(res, 200, group);
     } catch (error) {
       resGenerator(res, 400, error);
