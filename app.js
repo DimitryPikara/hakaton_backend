@@ -4,14 +4,14 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-<<<<<<< HEAD
 const schedule = require('node-schedule');
-=======
-const cors = require('cors')
->>>>>>> main
+const cors = require('cors');
+const wifiName = require('wifi-name');
 
 const indexRouter = require('./routes/index');
+const checkWifiName = require('./middlewares/checkWifiName');
 const updateGroups = require('./utils/updateGroups').updateAll;
+const resGenerator = require('./utils/resGenerator');
 
 const app = express();
 
@@ -31,6 +31,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.get('/wifi', (req, res) => {
+  const allowedWifis = ['sfedu-stud', 'sfedu', 'sfedu-conf'];
+  wifiName().then(name => {
+    if (!allowedWifis.includes(name)) return resGenerator(res, 400, { message: 'You are not connected to sfedu wifi!' });
+    resGenerator(res, 200, name);
+  });
+});
 
 schedule.scheduleJob('0 * 1 08 *', updateGroups);
 
