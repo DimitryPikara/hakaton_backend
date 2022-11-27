@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       as: 'users',
     });
     Groups.belongsToMany(Lectures, {
-      through: 'groupsLectures',
+      through: 'GroupsLectures',
       foreignKey: 'groupId',
       as: 'lectures',
     })

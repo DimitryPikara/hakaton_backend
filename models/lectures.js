@@ -1,9 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
   const Lectures = sequelize.define('Lectures', {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     title: DataTypes.STRING,
     teacher: DataTypes.UUID,
@@ -12,23 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     isOnline: DataTypes.BOOLEAN,
   });
   Lectures.associate = ({
-    Users,
     Groups,
-    LecturesUsers,
   }) => {
     Lectures.belongsToMany(Groups, {
-      through: 'groupsLectures',
+      through: 'GroupsLectures',
       foreignKey: 'lectureId',
       as: 'groups',
-    });
-    Lectures.belongsTo(Users, {
-      foreignKey: 'teacher',
-      targetKey: 'id',
-      as: 'teacherLecture',
-    });
-    Lectures.hasOne(LecturesUsers, {
-      foreignKey: 'lectureId',
-      as: 'lectureUsers',
     });
   }
 
