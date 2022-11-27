@@ -5,16 +5,17 @@ const resGenerator = require('../../utils/resGenerator');
 const takeTime = require('./lectures.helpers');
 
 const {
-  getLectureByTeacherId,
+  getLectureByTeacherName,
   createLecture,
   updateLecture,
+  getLectureByGroupId,
 } = require('./lectures.query');
 
 module.exports = {
   async getLecturesByTeacher(req, res){
     try {
-      const { id } = req.params;
-      const lectures = await getLectureByTeacherId(id);
+      const { name } = req.params;
+      const lectures = await getLectureByTeacherName(name);
       resGenerator(res, 200, lectures);
     } catch (error) {
       resGenerator(res, 400, error);
@@ -60,6 +61,15 @@ module.exports = {
       const { start, end } = req.body;
       const lecture = await updateLecture(id, start, end);
       resGenerator(res, 200, lecture);
+    } catch (error) {
+      resGenerator(res, 400, error);
+    }
+  },
+  async getLecturesByGroup(req, res){
+    try {
+      const { id } = req.params;
+      const lectures = await getLectureByGroupId(id);
+      resGenerator(res, 200, lectures);
     } catch (error) {
       resGenerator(res, 400, error);
     }
