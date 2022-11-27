@@ -29,8 +29,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.get('/sync', (req, res) => {
-  updateLectures();
+app.get('/schedule/calendar/sync', (req, res) => {
+  updateLectures(req, res);
 })
 
 scheduleJobs();

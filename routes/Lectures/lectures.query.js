@@ -4,6 +4,7 @@ const {
   GroupsLectures,
   Groups,
 } = require('../../models');
+const { v4: uuid } = require("uuid");
 
 module.exports = {
   getLectureByTeacherId(id) {
@@ -23,27 +24,37 @@ module.exports = {
         registrationTime: 30,
       }, { transaction })));
 
-      await Promise.all(
-        newLecture.map((item) =>
-          data
-            .find(
-              (rasp) =>
-                rasp.title === item.title && rasp.teacher === item.teacher
+      const newAss = await Promise.all(
+        newLecture.map(
+          async (item) =>
+            await Promise.all(
+              data
+                .find(
+                  (rasp) =>
+                    rasp.title === item.title && rasp.teacher === item.teacher
+                )
+                ?.groups.filter((group) => group.includes("КТ"))
+                .map(async(groupName) => {
+                  const groupId = groups.find(
+                    (group) => group.title === groupName
+                  )?.id;
+                  if (!groupId) return;
+                  return await GroupsLectures.create(
+                    {
+                      id: uuid(),
+                      groupId: groupId ?? uuid(),
+                      lectureId: item.id,
+                      createdAt: new Date(),
+                      updatedAt: new Date(),
+                    },
+                    { transaction }
+                  );
+                })
             )
-            ?.groups.map((groupName) => {
-              const groupId = groups.find(
-                (group) => group.title === groupName
-              )?.id;
-              GroupsLectures.create(
-                {
-                  groupId,
-                  lectureId: item.id,
-                },
-                { transaction }
-              );
-            })
         )
       );
+
+      // console.log(newAss);
 
       await transaction.commit();
       
@@ -51,7 +62,7 @@ module.exports = {
         include: [
           {
             model: Groups,
-            as: 'group',
+            as: 'groups',
           }
         ]
       });

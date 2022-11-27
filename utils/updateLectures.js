@@ -1,7 +1,8 @@
-const { Lectures, Groups } = require("../models");
-const chrono = require('chrono-node');
-const takeTime = require('../routes/Lectures/lectures.helpers');
-const { createLecture } = require('../routes/Lectures/lectures.query');
+const { Lectures, Groups, GroupsLectures } = require("../models");
+const chrono = require("chrono-node");
+const takeTime = require("../routes/Lectures/lectures.helpers");
+const { createLecture } = require("../routes/Lectures/lectures.query");
+const resGenerator = require('./resGenerator');
 
 const teachersParser = (data) => {
   const teachers = [];
@@ -28,7 +29,7 @@ const lessonsParser = (data) => {
     item.map((lesson, lessonIndex) => {
       if (lessonIndex !== 0 && lesson) {
         lessons.push({
-          title: lesson,
+          title: lesson.split(' ').slice(1).join(' '),
           isOnline: lesson.includes("LMS" || "Teams"),
           date: chrono.ru.parseDate(
             `${
@@ -36,76 +37,90 @@ const lessonsParser = (data) => {
             },${takeTime(lessonIndex)}`
           ),
           teacher: data.table.name,
-          groups: lesson.split(' ')[0].split(','),
+          groups: lesson.split(" ")[0].split(","),
         });
       }
     });
   });
+  console.log(lessons);
   return lessons;
 };
 
 module.exports = {
-  async updateLectures() {
+  async updateLectures(req, res) {
     try {
       let teachers = [];
+      await Lectures.truncate();
+      await GroupsLectures.truncate();
       const groups = await Groups.findAll();
-      const schedules = await Promise.all(
+      await Promise.all(
         groups.map(async (group) => {
-          let response = await fetch(
-            `https://cors-everywhere.herokuapp.com/http://165.22.28.187/schedule-api/?query=${group.title}`,
-            {
-              headers: {
-                Origin: "http://localhost:3000/",
-              },
-            }
-          );
-          const groupSchedule = await response.json();
-          if (groupSchedule?.choices) {
-            const currentGroup = groupSchedule.choices?.find(
-              (choice) => choice.name === group.title
-            )?.group;
-            const res = await fetch(
-              `https://cors-everywhere.herokuapp.com/http://165.22.28.187/schedule-api/?group=${currentGroup}`,
+          try {
+            let response = await fetch(
+              `https://cors-everywhere.herokuapp.com/http://165.22.28.187/schedule-api/?query=${group.title}`,
               {
                 headers: {
                   Origin: "http://localhost:3000/",
                 },
               }
             );
-            const groupLectures = await res.json();
-            teachers = [...teachers, ...teachersParser(groupLectures)];
-            return groupLectures;
+            const groupSchedule = await response.json();
+            if (groupSchedule?.choices) {
+              const currentGroup = groupSchedule?.choices?.find(
+                (choice) => choice.name === group.title
+              )?.group;
+              if (!currentGroup) return undefined;
+              const res = await fetch(
+                `https://cors-everywhere.herokuapp.com/http://165.22.28.187/schedule-api/?group=${currentGroup}`,
+                {
+                  headers: {
+                    Origin: "http://localhost:3000/",
+                  },
+                }
+              );
+              const groupLectures = await res.json();
+              teachers = [...teachers, ...teachersParser(groupLectures)];
+              return groupLectures;
+            }
+            teachers = [...teachers, ...teachersParser(groupSchedule)];
+            return groupSchedule;
+          } catch (error) {
+            console.log(error.message);
           }
-          teachers = [...teachers, ...teachersParser(groupSchedule)];
-          return groupSchedule;
         })
       );
       const uniqueTeachers = Array.from(new Set(teachers))?.filter(
         (item) => item
       );
+
       const teachersSchedules = await Promise.all(
         uniqueTeachers.map(async (teacher) => {
-          const res = await fetch(
-            `https://cors-everywhere.herokuapp.com/http://165.22.28.187/schedule-api/?query=${teacher}`,
-            {
-              headers: {
-                Origin: "http://localhost:3000/",
-              },
+          try {
+            const res = await fetch(
+              `https://cors-everywhere.herokuapp.com/http://165.22.28.187/schedule-api/?query=${teacher}`,
+              {
+                headers: {
+                  Origin: "http://localhost:3000/",
+                },
+              }
+            );
+            const currentSchedule = await res.json();
+            if (currentSchedule?.choices) {
+              return null;
             }
-          );
-          const currentSchedule = await res.json();
-          if (currentSchedule?.choices) {
-            return null;
+            return currentSchedule;
+          } catch (error) {
+            console.log(error.message);
           }
-          return currentSchedule;
         })
       );
       const parsedSchedules = teachersSchedules
         .filter((schedule) => schedule)
         .map((schedule) => lessonsParser(schedule));
-        createLecture(parsedSchedules.flat());
+      const result = await createLecture(parsedSchedules.flat());
+      resGenerator(res, 200, result);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   },
 };
