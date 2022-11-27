@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   Users.associate = ({
     Groups,
     ApiTokens,
+    LecturesUsers,
   }) => {
     Users.belongsTo(Groups, {
       foreignKey: 'groupId',
@@ -30,7 +31,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       sourceKey: 'id',
       as: 'tokens',
-    })
+    });
+    Users.hasMany(LecturesUsers, {
+      foreignKey: 'userId',
+      sourceKey: 'id',
+      as: 'userId',
+    });
   }
 
   return Users;
