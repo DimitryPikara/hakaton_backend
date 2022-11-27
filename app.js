@@ -6,12 +6,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const schedule = require('node-schedule');
 const cors = require('cors');
-const wifiName = require('wifi-name');
+const { scheduleJobs } = require('./utils/schedule');
 
 const indexRouter = require('./routes/index');
-const checkWifiName = require('./middlewares/checkWifiName');
-const updateGroups = require('./utils/updateGroups').updateAll;
-const resGenerator = require('./utils/resGenerator');
+const {updateLectures} = require('./utils/updateLectures');
 
 const app = express();
 
@@ -31,15 +29,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.get('/wifi', (req, res) => {
-  const allowedWifis = ['sfedu-stud', 'sfedu', 'sfedu-conf'];
-  wifiName().then(name => {
-    if (!allowedWifis.includes(name)) return resGenerator(res, 400, { message: 'You are not connected to sfedu wifi!' });
-    resGenerator(res, 200, name);
-  });
-});
+app.get('/schedule/calendar/sync', (req, res) => {
+  updateLectures(req, res);
+})
 
-schedule.scheduleJob('0 * 1 08 *', updateGroups);
+scheduleJobs();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

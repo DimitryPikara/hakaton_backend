@@ -1,4 +1,4 @@
-const chrono = require('chrono');
+const chrono = require('chrono-node');
 
 const resGenerator = require('../../utils/resGenerator');
 
@@ -22,8 +22,9 @@ module.exports = {
   },
   async createLecture(req, res) {
     try {
-      const { groupId } = req.quuery;
+      const { groupId } = req.query;
       const { data } = req.body;
+      const lessons = [];
       data.table.table.slice(2).map((item) => {
         item.map((lesson, lessonIndex) => {
           if (lessonIndex !== 0 && lesson) {
@@ -46,7 +47,8 @@ module.exports = {
             });
         }
       })});
-      const lecture = await createLecture(req.body, groupId);
+      console.log(lessons);
+      const lecture = await createLecture(parsedData, groupId);
       resGenerator(res, 201, lecture);
     } catch (error) {
       resGenerator(res, 400, error);

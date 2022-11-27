@@ -2,7 +2,7 @@ const { Groups } = require("../models");
 const { Op } = require("sequelize");
 
 module.exports = {
-  async updateAll() {
+  async updateGroups() {
     await Groups.destroy({
       where: {
         [Op.or]: [

@@ -16,29 +16,19 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'student',
     },
     groupId: DataTypes.UUID,
-    lectureId: DataTypes.UUID,
     isFirstLogin: DataTypes.BOOLEAN,
     displayName: DataTypes.STRING,
   });
 
   Users.associate = ({
-    Lectures,
     Groups,
-    LecturesUsers,
     ApiTokens,
   }) => {
     Users.belongsTo(Groups, {
       foreignKey: 'groupId',
       targetKey: 'id',
-      as: 'group',
+      as: 'groups',
     });
-    Users.hasMany(Lectures, {
-      as: 'lectures',
-    })
-    Users.hasOne(LecturesUsers, {
-      foreignKey: 'userId',
-      as: 'lectureUsers',
-    })
     Users.hasMany(ApiTokens, {
       foreignKey: 'userId',
       sourceKey: 'id',
