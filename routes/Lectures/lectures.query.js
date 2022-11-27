@@ -1,6 +1,7 @@
 const { Lectures, sequelize, GroupsLectures, Groups } = require("../../models");
 const { v4: uuid } = require("uuid");
 const { Op } = require("sequelize");
+const randomstring = require('randomstring');
 
 module.exports = {
   getLectureByTeacherName(name) {
@@ -27,6 +28,7 @@ module.exports = {
               teacher: item.teacher,
               title: item.title,
               registrationTime: 30,
+              code: randomstring.generate(7),
             },
             { transaction }
           )

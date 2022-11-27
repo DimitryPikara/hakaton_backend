@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     start: DataTypes.DATE,
     registrationTime: DataTypes.NUMBER,
     isOnline: DataTypes.BOOLEAN,
+    code: DataTypes.STRING,
   });
   Lectures.associate = ({
     Groups,
