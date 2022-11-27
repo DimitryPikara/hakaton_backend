@@ -8,6 +8,7 @@ const {
   editLeacture,
   getLecturesByGroup,
   exportCsv,
+  registerLecture,
 } = require('./lectures.controller');
 
 router.get('/teacher/:name', getLecturesByTeacher);
@@ -19,5 +20,7 @@ router.get('/export', exportCsv);
 router.post('/create', createLecture);
 
 router.patch('/:id', editLeacture);
+
+router.post('/register', registerLecture);
 
 module.exports = router;

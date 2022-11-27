@@ -1,5 +1,6 @@
 const chrono = require('chrono-node');
 const { Parser } = require('json2csv');
+const { Lecture, LecturesUsers }= require('../../models');
 
 const resGenerator = require('../../utils/resGenerator');
 
@@ -123,4 +124,11 @@ module.exports = {
       resGenerator(res, 400, error);
     }
   },
+  async registerLecture(req, res) {
+    const { lectureId, userId, code } = req.body;
+    const lecture = await Lecture.findOne({where: { id: lectureId }});
+    if (lecture.code !== code) resGenerator(res, 400, { message: "Wrong registration code "});
+    const lectureUser = await LecturesUsers.create({ lectureId, userId, isCheck: true });
+    resGenerator(res, 200, lectureUser);
+  }
 };
