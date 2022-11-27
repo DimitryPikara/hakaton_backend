@@ -10,9 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     patronymic: DataTypes.STRING,
     role: {
       type: DataTypes.STRING,
-      validate: {
-        isIn: ['student', 'teacher'],
-      },
       defaultValue: 'student',
     },
     groupId: DataTypes.UUID,
