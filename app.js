@@ -11,6 +11,7 @@ const wifiName = require('wifi-name');
 const indexRouter = require('./routes/index');
 const checkWifiName = require('./middlewares/checkWifiName');
 const updateGroups = require('./utils/updateGroups').updateAll;
+const resGenerator = require('./utils/resGenerator');
 
 const app = express();
 
@@ -31,8 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.get('/wifi', (req, res) => {
+  const allowedWifis = ['sfedu-stud', 'sfedu', 'sfedu-conf'];
   wifiName().then(name => {
-    if (name !== ('sfedu-stud' || 'sfedu' || 'sfedu-conf')) return resGenerator(res, 400, { message: 'You are not connected to sfedu wifi!' });
+    if (!allowedWifis.includes(name)) return resGenerator(res, 400, { message: 'You are not connected to sfedu wifi!' });
     resGenerator(res, 200, name);
   });
 });
