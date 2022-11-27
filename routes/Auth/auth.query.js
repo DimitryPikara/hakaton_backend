@@ -2,6 +2,7 @@ const {
   Users,
   ApiTokens,
   sequelize,
+  Groups,
 } = require('../../models');
 
 module.exports = {
@@ -21,17 +22,21 @@ module.exports = {
 
       if (existUser) {
         const existToken = await ApiTokens.findOne({ where: { userId: id } });
+        const group = await Groups.findOne({ where: { id: existUser.groupId }});
         return {
           user: existUser,
           token: existToken.accessToken,
+          group: group,
         };
       }
 
       if (existUser && !existUser?.isFirstLogin && jobTitle === 'студент') {
         const existToken = await ApiTokens.findOne({ where: { userId: id } });
+        const group = await Groups.findOne({ where: { id: existUser.groupId }});
         return {
           user: existUser,
           token: existToken.accessToken,
+          group: group,
         };
       }
 
