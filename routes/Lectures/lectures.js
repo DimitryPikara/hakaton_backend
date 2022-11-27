@@ -7,11 +7,14 @@ const {
   createLecture,
   editLeacture,
   getLecturesByGroup,
+  exportCsv,
 } = require('./lectures.controller');
 
 router.get('/teacher/:name', getLecturesByTeacher);
 
-router.get('/student/:id', getLecturesByGroup)
+router.get('/student/:id', getLecturesByGroup);
+
+router.get('/export', exportCsv);
 
 router.post('/create', createLecture);
 
