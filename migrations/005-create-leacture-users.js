@@ -6,7 +6,7 @@ module.exports = {
       primaryKey: true,
     },
     lectureId: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       allowNull: true,
     },
     userId: {

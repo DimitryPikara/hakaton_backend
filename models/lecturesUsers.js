@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    lectureId: DataTypes.UUID,
+    lectureId: DataTypes.INTEGER,
     userId: DataTypes.UUID,
     isCheck: DataTypes.BOOLEAN,
   });

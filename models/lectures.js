@@ -14,17 +14,17 @@ module.exports = (sequelize, DataTypes) => {
   });
   Lectures.associate = ({
     Groups,
-    LecturesUsers,
+    Users,
   }) => {
     Lectures.belongsToMany(Groups, {
       through: 'GroupsLectures',
       foreignKey: 'lectureId',
       as: 'groups',
     });
-    Lectures.hasMany(LecturesUsers, {
+    Lectures.belongsToMany(Users, {
       foreignKey: 'lectureId',
-      sourceKey: 'id',
-      as: 'lectures',
+      through: 'LecturesUsers',
+      as: 'users',
     });
   }
 
