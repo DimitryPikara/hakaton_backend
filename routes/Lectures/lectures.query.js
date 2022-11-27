@@ -9,9 +9,10 @@ module.exports = {
   getLectureByTeacherId(id) {
     return Lectures.findAll({ where: { id } });
   },
-  async createLecture(data, groupId) {
+  async createLecture(data) {
     let transaction;
     try {
+      const groups = await Groups.findAll();
       transaction = await sequelize.transaction();
 
       const newLecture = await Promise.all(data.map((item) => Lectures.create({
@@ -22,10 +23,27 @@ module.exports = {
         registrationTime: 30,
       }, { transaction })));
 
-      await Promise.all(newLecture.map((item) => GroupsLectures.create({
-        groupId,
-        lectureId: item.id,
-      }, { transaction })));
+      await Promise.all(
+        newLecture.map((item) =>
+          data
+            .find(
+              (rasp) =>
+                rasp.title === item.title && rasp.teacher === item.teacher
+            )
+            ?.groups.map((groupName) => {
+              const groupId = groups.find(
+                (group) => group.title === groupName
+              )?.id;
+              GroupsLectures.create(
+                {
+                  groupId,
+                  lectureId: item.id,
+                },
+                { transaction }
+              );
+            })
+        )
+      );
 
       await transaction.commit();
       
