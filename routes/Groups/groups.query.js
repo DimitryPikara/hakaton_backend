@@ -18,7 +18,7 @@ module.exports = {
     return Groups.findAll({ attributes: ['id', 'title']});
   },
   async selectGroupForUser(groupId, userId) {
-    await Users.update({ groupdId }, { where: { id: userId } });
+    await Users.update({ groupdId, isFirstLogin: false }, { where: { id: userId } });
     return Groups.findOne({ where: { id: groupId } });
   }
 };
