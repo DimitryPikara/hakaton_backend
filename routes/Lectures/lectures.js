@@ -6,9 +6,12 @@ const {
   getLecturesByTeacher,
   createLecture,
   editLeacture,
+  getLecturesByGroup,
 } = require('./lectures.controller');
 
-router.get('/:id', getLecturesByTeacher);
+router.get('/teacher/:name', getLecturesByTeacher);
+
+router.get('/student/:id', getLecturesByGroup)
 
 router.post('/create', createLecture);
 
