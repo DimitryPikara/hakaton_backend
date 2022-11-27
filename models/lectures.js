@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Lectures.associate = ({
     Groups,
+    LecturesUsers,
   }) => {
     Lectures.belongsToMany(Groups, {
       through: 'GroupsLectures',
